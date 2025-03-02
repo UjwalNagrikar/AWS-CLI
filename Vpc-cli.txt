@@ -1,0 +1,29 @@
+1. Create a VPC
+
+aws ec2 create-vpc --cidr-block 10.0.0.0/16
+
+2. Create a Subnet
+aws ec2 create-subnet --vpc-id vpc-062e6bb51aa3d8fd0 --cidr-block 10.0.1.0/24
+
+3. Create an Internet Gateway
+aws ec2 create-internet-gateway
+
+4. Attach the Internet Gateway to the VPC
+aws ec2 attach-internet-gateway --internet-gateway-id igw-0238a73acb4c05ad8 --
+vpc-id vpc-062e6bb51aa3d8fd0
+
+5. Create a Route Table
+aws ec2 create-route-table --vpc-id vpc-062e6bb51aa3d8fd0
+
+6. Add a Route to the Internet Gateway
+aws ec2 create-route --route-table-id rtb-0b26f600624bf8a89 --destination-cidr-
+block 0.0.0.0/0 --gateway-id igw-0238a73acb4c05ad8
+
+7. Associate the Route Table with the Subnet
+aws ec2 associate-route-table --route-table-id rtb-0b26f600624bf8a89 --subnet-id
+subnet-0a718e5c7fae5d233
+
+8. Launch an EC2 Instance
+aws ec2 run-instances --image-id ami-00bb6a80f01f03502 --instance-type t2.micro
+--key-name Ujwal-CLI --security-group-ids sg-0d01d83ca14f2049a --subnet-id
+subnet-0a718e5c7fae5d233 --associate-public-ip-address
